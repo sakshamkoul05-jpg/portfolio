@@ -270,3 +270,113 @@ a{color:inherit}
   .hero-name .line-in{transform:none}
   .marquee-track{animation:none}
 }
+
+/* ============================================================
+   ELEVATION PASS — intro, hover previews, live details, craft
+   ============================================================ */
+
+/* thin custom scrollbar */
+html{scrollbar-width:thin;scrollbar-color:var(--ink) var(--paper)}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--paper);border-left:1px solid var(--hair)}
+::-webkit-scrollbar-thumb{background:var(--ink);border:2px solid var(--paper)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* anchors clear the sticky topbar */
+section[id]{scroll-margin-top:64px}
+
+/* hero lines wait for the intro curtain, then rise faster */
+.hero-name .line-in{animation-duration:.75s;animation-delay:.5s}
+.hero-name .line:nth-child(2) .line-in{animation-delay:.63s}
+
+/* ---------- intro ---------- */
+.intro-lock{overflow:hidden}
+.intro{
+  position:fixed;inset:0;z-index:90;background:var(--paper);
+  display:flex;align-items:flex-end;
+  padding:0 var(--pad) clamp(28px,6vh,64px);
+  transition:transform .6s var(--ease);
+}
+.intro.done{transform:translateY(-101%)}
+.intro-in{width:100%}
+.intro-kicker{color:var(--ink-soft);margin-bottom:10px}
+.intro-count{
+  font-weight:900;letter-spacing:-.04em;line-height:.9;
+  font-size:clamp(84px,17vw,190px);color:var(--ink);
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+}
+.intro-count #introNum{color:var(--accent);font-variant-numeric:tabular-nums}
+.intro-total{color:var(--ink-soft);font-weight:400}
+.intro-rule{height:2px;background:var(--hair);margin-top:22px;overflow:hidden}
+.intro-rule span{display:block;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left}
+
+/* ---------- big chapter numerals ---------- */
+.chapter-head{position:relative}
+.chapter-big{
+  position:absolute;right:0;top:50%;transform:translateY(-56%);
+  font-size:clamp(64px,10vw,150px);font-weight:700;line-height:1;letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:1.5px var(--hair);
+  pointer-events:none;user-select:none;z-index:0;
+}
+.chapter-head .label,.chapter-head .chapter-title,.chapter-head .chapter-note{position:relative;z-index:1}
+.chapter-dark .chapter-big{-webkit-text-stroke-color:var(--dark-hair)}
+
+/* ---------- inverted marquee divider ---------- */
+.marquee-inv{background:var(--ink);color:var(--paper);border-bottom:1px solid var(--ink)}
+.marquee-inv .marquee-track{animation-direction:reverse}
+.marquee-inv .marquee-track b{color:var(--accent)}
+
+/* ---------- hover preview tile ---------- */
+.preview{
+  position:fixed;left:0;top:0;width:300px;height:384px;z-index:70;
+  pointer-events:none;opacity:0;transition:opacity .25s var(--ease);
+  will-change:transform;
+}
+.preview.on{opacity:1}
+.pv-card{
+  height:100%;display:flex;flex-direction:column;justify-content:space-between;
+  padding:18px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);
+  box-shadow:12px 12px 0 rgba(22,21,15,.16);
+  transform:scale(.94);transition:transform .32s var(--ease),background .2s,color .2s;
+  position:relative;overflow:hidden;
+}
+.preview.on .pv-card{transform:scale(1)}
+.pv-top{display:flex;justify-content:space-between;gap:12px;color:inherit;opacity:.85}
+.pv-no{color:var(--accent)}
+.pv-mid{
+  font-weight:900;letter-spacing:-.03em;line-height:.9;text-transform:uppercase;
+  font-size:104px;align-self:flex-start;
+}
+.pv-bot{display:flex;flex-direction:column;gap:8px}
+.pv-name{font-size:21px;font-weight:750;letter-spacing:-.015em;line-height:1.05}
+.pv-meta{display:flex;justify-content:space-between;gap:12px;opacity:.85}
+.pv-cta{color:var(--accent)}
+/* variant b — ink poster */
+.preview[data-variant="b"] .pv-card{background:var(--ink);color:var(--paper);box-shadow:12px 12px 0 var(--accent)}
+/* variant c — orange poster (the ads entry) */
+.preview[data-variant="c"] .pv-card{background:var(--accent);color:var(--ink);box-shadow:12px 12px 0 var(--ink)}
+.preview[data-variant="c"] .pv-no{color:var(--paper)}
+.preview[data-variant="c"] .pv-cta{color:var(--paper)}
+.preview[data-variant="c"] .pv-mid{font-size:88px}
+/* variant d — serif poster with inner frame */
+.preview[data-variant="d"] .pv-card::after{
+  content:"";position:absolute;inset:10px;border:1px solid var(--hair);pointer-events:none;
+}
+.preview[data-variant="d"] .pv-mid{
+  font-family:var(--font-serif);font-style:italic;font-weight:500;text-transform:none;
+  letter-spacing:-.01em;font-size:47px;line-height:1.04;align-self:center;text-align:center;
+}
+@media (hover:none),(pointer:coarse){
+  .preview{display:none}
+}
+
+/* footer clocks sit in the mono strip without wrapping mid-pair */
+.footer span{white-space:nowrap}
+
+@media (max-width:900px){
+  .chapter-big{font-size:clamp(52px,14vw,84px);-webkit-text-stroke-width:1.2px;transform:translateY(-50%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .intro{display:none}
+  .preview{display:none}
+}
